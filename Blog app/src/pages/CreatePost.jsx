@@ -90,7 +90,7 @@ function CreatePost() {
       sound.play();
 
       setSuccess(true);
-      setTimeout(() => navigate("/home/page"), 1500);
+      setTimeout(() => navigate("/home/page"), 2500);
     } catch (err) {
       console.error("❌ Post creation failed:", err);
       alert("Upload failed. error due to internet connection, please try again.");
