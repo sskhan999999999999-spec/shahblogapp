@@ -158,7 +158,7 @@ const navgate = useNavigate()
         {posts.map((post) => (
           <div
             key={post.$id}
-            className="border-b-2 border-gray-400 py-4 mb-6 space-y-3"
+            className="border-b-2 border-gray-400 py-2 mb-6 space-y-2  "
           >
             <div className="flex justify-between pr-2">
               <h3 className="text-lg font-semibold pl-2">{post.title}</h3>
@@ -202,21 +202,25 @@ const navgate = useNavigate()
             {mediaUrls[post.$id] ? (
               mediaUrls[post.$id].type === "video" ? (
                 // <button onClick={()=>{handleVideoComponent(post.$id)}}>
+                 <div className="h-full">
                   <video
                   ref={(el) => (videoRefs.current[post.$id] = el)}
                   src={mediaUrls[post.$id].url}
                   controls
                 muted
-                  className="w-full  object-cover rounded-lg"
+                  className="w-full lg:h-[500px]  sm:h-[200px] object-cover rounded-lg"
                 />
-                // </button>
+                {/* // </button> */}
+                </div>
               ) : (
+                <div className="py-10 bg-black">
                 <img
                   src={mediaUrls[post.$id].url}
                   alt="Post"
                 
-                  className="w-full  object-cover rounded-lg"
+                  className="w-full lg:h-[500px] sm:h-[300px] object-cover rounded-lg h-fit"
                 />
+                </div>
               )
             ) : (
               <div className="w-32 h-32 bg-gray-200 flex items-center justify-center rounded-md">

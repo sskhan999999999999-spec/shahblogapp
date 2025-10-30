@@ -17,7 +17,7 @@ function Nav() {
         </div>
 
         
-        <div className="flex items-center justify-center gap-5 lg:gap-14  flex-shrink min-w-0">
+        <div className="flex items-center justify-center gap-5 lg:gap-20  flex-shrink min-w-0">
           <NavLink
             to="/home/page"
             className={({ isActive }) =>

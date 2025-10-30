@@ -206,13 +206,15 @@ function Page() {
 
             
             {mediaUrls[post.$id] && (
+              
               <video
                 ref={(el) => (videoRefs.current[post.$id] = el)}
                 src={mediaUrls[post.$id].url }
                 controls
                 muted
-                className="w-full object-cover rounded-lg"
+                className="w-full lg:h-[500px]  sm:h-[200px] object-cover rounded-lg  "
               />
+              
             )}
 
            

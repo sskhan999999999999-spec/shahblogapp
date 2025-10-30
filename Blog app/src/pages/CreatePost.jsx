@@ -93,7 +93,7 @@ function CreatePost() {
       setTimeout(() => navigate("/home/page"), 1500);
     } catch (err) {
       console.error("❌ Post creation failed:", err);
-      alert("Upload failed. Internet slow ho sakta hai, please try again.");
+      alert("Upload failed. error due to internet connection, please try again.");
       setProgress(0);
     } finally {
       setLoading(false);
@@ -143,16 +143,18 @@ function CreatePost() {
           type="file"
           accept="video/*"
           onChange={(e) => setVideo(e.target.files[0])}
-          className={`w-full mb-4 ${file ? "opacity-50 cursor-not-allowed" : ""}`}
+          className={`w-full mb-4 hover:outline-yellow-600 ${file ? "opacity-50 cursor-not-allowed" : ""}`}
         />
 
         {/* 🟦 Animated Create Button */}
         <button
           type="submit"
           disabled={loading}
-          className={`relative overflow-hidden text-black  font-semibold px-4 py-2 rounded w-full transition-all duration-300 ${
+          className={`relative overflow-hidden text-black  hover:text-white font-semibold px-4 py-2 rounded w-full transition-all duration-300 
+           ${
             loading ? "cursor-wait" : "bg-blue-600 hover:bg-blue-700"
-          }`}
+          }
+          `}
         >
           {/* Progress fill inside button */}
           {loading && (
