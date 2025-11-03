@@ -14,7 +14,7 @@ import authService from "../appwrite/auth";
 import { Query } from "appwrite";
 import Container from "./Container.jsx";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 import Comments from "./Comments";
 
@@ -29,7 +29,7 @@ function Page() {
   const videoRefs = useRef({}); 
   const [openComments, setOpenComments] = useState(false);
 const [selectedPostId, setSelectedPostId] = useState(null);
-const navgate = useNavigate()
+
 
 
   useEffect(() => {
@@ -100,7 +100,7 @@ const navgate = useNavigate()
           }
         });
       },
-      { threshold: 0.5 } 
+      { threshold: [0, 0.25, 0.5, 0.75, 1] } 
     );
 
     Object.values(videoRefs.current).forEach((video) => {
@@ -133,12 +133,7 @@ const navgate = useNavigate()
       console.error("Delete error", error);
     }
   };
-  // const handleVideoComponent = async (postId,title)=>{
-  //   const video = mediaUrls[postId]
-    
-  //   console.log(video);
-  //   navgate("/home/video",{state:{dataurl:video.url }})
-  // }
+  
 
   
   return (
@@ -202,13 +197,13 @@ const navgate = useNavigate()
             {mediaUrls[post.$id] ? (
               mediaUrls[post.$id].type === "video" ? (
                 // <button onClick={()=>{handleVideoComponent(post.$id)}}>
-                 <div className="h-full">
+                 <div className="">
                   <video
                   ref={(el) => (videoRefs.current[post.$id] = el)}
                   src={mediaUrls[post.$id].url}
                   controls
-                muted
-                  className="w-full lg:h-[500px]  sm:h-[200px] object-cover rounded-lg"
+                  muted
+                  className="w-full lg:h-[500px]  sm:h-fit object-cover rounded-lg"
                 />
                 {/* // </button> */}
                 </div>
@@ -218,7 +213,7 @@ const navgate = useNavigate()
                   src={mediaUrls[post.$id].url}
                   alt="Post"
                 
-                  className="w-full lg:h-[500px] sm:h-[300px] object-cover rounded-lg h-fit"
+                  className="w-full lg:h-[500px] sm:h-fit object-cover rounded-lg h-fit"
                 />
                 </div>
               )
