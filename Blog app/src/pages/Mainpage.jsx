@@ -17,6 +17,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {  useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 import Comments from "./Comments";
+import deltesound from "../assets/DeleteSound.mp3"
 
 
 function Page() {
@@ -129,6 +130,8 @@ const [selectedPostId, setSelectedPostId] = useState(null);
     try {
       await service.deletePost(postId);
       setPosts((prev) => prev.filter((p) => p.$id !== postId));
+      const Delte = new Audio(deltesound)
+      Delte.play()
     } catch (error) {
       console.error("Delete error", error);
     }
@@ -203,7 +206,7 @@ const [selectedPostId, setSelectedPostId] = useState(null);
                   src={mediaUrls[post.$id].url}
                   controls
                   muted
-                  className="w-full lg:h-[500px]  sm:h-fit object-cover rounded-lg"
+                  className="w-full lg:h-[500px]  sm:h-fit object-cover rounded-lg md:h-[600px]"
                 />
                 {/* // </button> */}
                 </div>

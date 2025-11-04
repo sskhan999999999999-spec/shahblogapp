@@ -4,7 +4,7 @@ function Container({children}) {
   return (
     
     <div className='w-full max-w-md flex-col justify-center items-center m-auto bg-white
-     mt-12  lg:mt-0 shadow-2xl'>
+     mt-12  lg:mt-0 shadow-2xl  '>
       {children}
     </div>
     
