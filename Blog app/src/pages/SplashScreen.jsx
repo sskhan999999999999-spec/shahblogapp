@@ -18,8 +18,8 @@ function SplashScreen({onFinish}) {
   </div>
 
   
-  <h2 className="text-lg lg:text-3xl font-semibold text-gray-700 lg:mb-4  mb-6">
-    Blog App
+  <h2 className=" lg:text-4xl font-semibold text-blue-700 lg:mb-4  mb-6 text-2xl">
+   Betagram
   </h2>
 </div>
 
