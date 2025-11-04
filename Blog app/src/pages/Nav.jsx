@@ -88,7 +88,7 @@ function Nav() {
             }
             
           >
-           <Settings className="sm:size-6 lg:size-8 md:size-8"/>
+           <Settings className="sm:size-6 lg:size-8 md:size-8 "/>
           </NavLink>
         </div>
 
@@ -98,7 +98,7 @@ function Nav() {
             <input
               type="text"
               placeholder="Search"
-              className={` ${flag===true ?'rounded-full bg-gray-100 w-55 p-2 text-lg focus:outline-none focus:ring-2 focus:ring-green-400 hover:bg-white transition':"rounded-full bg-gray-100 w-55 p-2 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 hover:bg-white transition"}`}
+              className={` ${flag===true ?'rounded-full bg-gray-100 w-[300px] p-2 text-lg focus:outline-none focus:ring-2 focus:ring-green-400 hover:bg-white transition':"rounded-full bg-gray-100 w-55 p-2 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 hover:bg-white transition"}`}
             />
           </div>
 
