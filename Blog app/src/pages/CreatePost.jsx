@@ -5,6 +5,8 @@ import service from "../appwrite/config";
 import { ID } from "appwrite";
 import Container from "./Container";
 import successSound from "../assets/audio.mp3";
+import postCreate from "../assets/postCreate.mp3"
+import postSuccessSound from "../assets/postSuccessful.mp3"
 
 function CreatePost() {
   const [post, setPost] = useState({ title: "", content: "" });
@@ -86,11 +88,15 @@ function CreatePost() {
       clearInterval(progressInterval);
       setProgress(100);
 
-      const sound = new Audio(successSound);
+      const sound = new Audio(postCreate);
       sound.play();
 
       setSuccess(true);
       setTimeout(() => navigate("/home/page"), 1000);
+     setTimeout(() => {
+      const postSuccess = new Audio(postSuccessSound)
+      postSuccess.play()
+     }, 1500); 
     } catch (err) {
       console.error("❌ Post creation failed:", err);
       alert("Upload failed. error due to internet connection, please try again.");

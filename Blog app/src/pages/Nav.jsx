@@ -16,7 +16,7 @@ function Nav() {
     {flag ? (
       <img
         src="https://flag-shop.ca/wp-content/uploads/2024/11/img-flag-shop-flags-of-the-world-pakistan-flag-3-5.webp"
-        className="rounded-full h-10 w-10 lg:w-12 lg:h-12"
+        className="rounded-full h-10 w-10 lg:w-12 lg:h-12 "
         alt="Pakistan Flag"
       />
     ) : (
