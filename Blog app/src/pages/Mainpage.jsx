@@ -129,9 +129,10 @@ const [selectedPostId, setSelectedPostId] = useState(null);
   const handleDelete = async (postId) => {
     try {
       await service.deletePost(postId);
-      setPosts((prev) => prev.filter((p) => p.$id !== postId));
       const Delte = new Audio(deltesound)
       Delte.play()
+      setPosts((prev) => prev.filter((p) => p.$id !== postId));
+      
     } catch (error) {
       console.error("Delete error", error);
     }
