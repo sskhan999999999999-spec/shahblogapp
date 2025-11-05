@@ -101,7 +101,7 @@ const [selectedPostId, setSelectedPostId] = useState(null);
           }
         });
       },
-      { threshold: [0, 0.25, 0.5, 0.75, 1] } 
+      { threshold: 0.5 } 
     );
 
     Object.values(videoRefs.current).forEach((video) => {
