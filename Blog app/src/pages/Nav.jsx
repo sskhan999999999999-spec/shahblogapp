@@ -16,7 +16,7 @@ function Nav() {
     {flag ? (
       <img
         src="https://flag-shop.ca/wp-content/uploads/2024/11/img-flag-shop-flags-of-the-world-pakistan-flag-3-5.webp"
-        className="rounded-full h-8 w-8 lg:w-20 lg:h-15"
+        className="rounded-full h-10 w-10 lg:w-12 lg:h-12"
         alt="Pakistan Flag"
       />
     ) : (
@@ -98,7 +98,7 @@ function Nav() {
             <input
               type="text"
               placeholder="Search"
-              className={` ${flag===true ?"rounded-full bg-gray-100 w-[300px] p-2 text-lg focus:outline-none focus:ring-2 focus:ring-green-400 hover:bg-white transition sm:focus:ring-green-400":"rounded-full bg-gray-100 w-55 p-2 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 hover:bg-white transition"}`}
+              className={` ${flag===true ?"rounded-full bg-gray-100 w-55 p-2 text-lg focus:outline-none focus:ring-2 focus:ring-green-400 hover:bg-white transition sm:focus:ring-green-400":"rounded-full bg-gray-100 w-55 p-2 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 hover:bg-white transition"}`}
             />
           </div>
 
