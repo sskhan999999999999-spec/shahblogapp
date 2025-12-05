@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     element: <Home />,
     children: [
       {
-        path: "page", // notice: no slash at start
+        path: "page", 
         element: <Page />,
       },
       {
