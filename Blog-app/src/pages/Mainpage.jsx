@@ -1,38 +1,38 @@
 import React, { useEffect, useState, useRef } from "react";
-import service from "../appwrite/config";
-import conf from "../conf/conf";
+import service from "../appwrite/config.js";
+import conf from "../conf/conf.js";
 import {
   Heart,
   MessageCircle,
+  Image,
   MoreHorizontal,
   Share2,
   Trash2Icon,
+ 
 } from "lucide-react";
-import authService from "../appwrite/auth";
-import { ID, Query } from "appwrite";
+import authService from "../appwrite/auth.js";
+import { Query } from "appwrite";
 import Container from "./Container.jsx";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import Modal from "./Modal";
-import Comments from "./Comments";
-import { useLocation } from "react-router-dom";
-
+import {  useNavigate } from "react-router-dom";
+import Modal from "./Modal.jsx";
+import Comments from "./Comments.jsx";
+import deltesound from "../assets/DeleteSound.mp3"
 
 
 function Page() {
-  const location = useLocation()
-  // const extraVideo = location.state?.dataurl
-  // console.log("New post",extraVideo,);
   const [posts, setPosts] = useState([]);
   const [mediaUrls, setMediaUrls] = useState({});
   const [likes, setLikes] = useState({});
   const [likedPosts, setLikedPosts] = useState([]);
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const videoRefs = useRef({});
+  const [loading,setloading] = useState(false)
+  const videoRefs = useRef({}); 
   const [openComments, setOpenComments] = useState(false);
-  const [selectedPostId, setSelectedPostId] = useState(null);
+const [selectedPostId, setSelectedPostId] = useState(null);
 
-  
+
+
   useEffect(() => {
     const fetchUser = async () => {
       const userData = await authService.getCurrentUser();
@@ -41,34 +41,37 @@ function Page() {
     fetchUser();
   }, []);
 
-  
   useEffect(() => {
     if (!user) return;
-    setLoading(true);
+    setloading(true)
 
     const loadData = async () => {
       try {
         const res = await service.getPosts();
-
-        const videoPosts = res.documents.filter((post) => post.videoFile);
-        setPosts(videoPosts);
+        setPosts(res.documents);
 
         const likedRes = await service.databases.listDocuments(
           conf.appwriteDataBaseId,
           conf.appwriteLikesCollectionId,
           [Query.equal("userId", user.$id)]
         );
-
         setLikedPosts(likedRes.documents.map((doc) => doc.postId));
 
         const urls = {};
         const likeCounts = {};
 
-        videoPosts.forEach((post) => {
-          urls[post.$id] = {
-            type: "video",
-            url: service.getFileUrl(post.videoFile),
-          };
+        res.documents.forEach((post) => {
+          if (post.featuredImage) {
+            urls[post.$id] = {
+              type: "image",
+              url: service.getFileUrl(post.featuredImage),
+            };
+          } else if (post.videoFile) {
+            urls[post.$id] = {
+              type: "video",
+              url: service.getFileUrl(post.videoFile),
+            };
+          }
           likeCounts[post.$id] = post.likes || 0;
         });
 
@@ -76,8 +79,9 @@ function Page() {
         setLikes(likeCounts);
       } catch (err) {
         console.error("Error loading data:", err);
-      } finally {
-        setLoading(false);
+      } finally  {
+        setloading(false)
+
       }
     };
 
@@ -91,13 +95,13 @@ function Page() {
         entries.forEach((entry) => {
           const video = entry.target;
           if (entry.isIntersecting) {
-            video.play();
+            video.play(); 
           } else {
-            video.pause();
+            video.pause(); 
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.5 } 
     );
 
     Object.values(videoRefs.current).forEach((video) => {
@@ -107,7 +111,6 @@ function Page() {
     return () => observer.disconnect();
   }, [mediaUrls]);
 
-  
   const handleLike = async (postId) => {
     try {
       const result = await service.likePost(postId, user.$id);
@@ -115,10 +118,6 @@ function Page() {
 
       if (result.liked) {
         setLikedPosts((prev) => [...prev, postId]);
-
-       
-        const audio = new Audio(successAudio);
-        audio.play();
       } else {
         setLikedPosts((prev) => prev.filter((id) => id !== postId));
       }
@@ -126,47 +125,42 @@ function Page() {
       console.error("Like error:", err);
     }
   };
-  // useEffect(()=>{
-  //   if(extraVideo){
-  //     setMediaUrls(prev=>({
-  //       ...prev,
-  //       custom:{type:"video",url:extraVideo}
-  //     }))
-  //     setPosts(prev=>[
-  //       {$id:"custom",title:"clicked post",content:"post from another page"},
-  //       ...prev
-  //     ])
-  //   }
-  // },[extraVideo])
 
-  
   const handleDelete = async (postId) => {
     try {
       await service.deletePost(postId);
+      const Delte = new Audio(deltesound)
+      Delte.play()
       setPosts((prev) => prev.filter((p) => p.$id !== postId));
+      
     } catch (error) {
       console.error("Delete error", error);
     }
   };
+  
 
+  
   return (
     <Container>
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-3xl ">
         <h2 className="text-3xl font-semibold text-blue-400 mb-4 text-center border-b-2 border-gray-300 pb-3">
-          Videos
+          All Posts
         </h2>
-
-        {loading && <p className="text-center text-xl">Loading...</p>}
-
+         {posts.length === 0 && (
+          <p className="text-xl text-center">No post yet</p>
+        )}
+        {loading === true && (
+          <p className="text-center text-xl">Loading...</p>
+        )}
+       
+        
         {posts.map((post) => (
           <div
             key={post.$id}
-            className="border-b-2 border-gray-400 py-4 mb-6 space-y-3"
+            className="border-b-2 border-gray-400 py-2 mb-6 space-y-2  "
           >
-           
             <div className="flex justify-between pr-2">
               <h3 className="text-lg font-semibold pl-2">{post.title}</h3>
-
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <MenuButton className="p-2 rounded-full hover:bg-gray-200 bg-white">
@@ -201,23 +195,38 @@ function Page() {
               </Menu>
             </div>
 
-          
             <p className="pl-2">{post.content}</p>
 
-            
-            {mediaUrls[post.$id] && (
-              
-              <video
-                ref={(el) => (videoRefs.current[post.$id] = el)}
-                src={mediaUrls[post.$id].url }
-                controls
-                muted
-                className="w-full lg:h-[500px]  sm:h-[200px] object-cover rounded-lg  "
-              />
-              
+            {/* ✅ Image / Video Display */}
+            {mediaUrls[post.$id] ? (
+              mediaUrls[post.$id].type === "video" ? (
+                // <button onClick={()=>{handleVideoComponent(post.$id)}}>
+                 <div className="">
+                  <video
+                  ref={(el) => (videoRefs.current[post.$id] = el)}
+                  src={mediaUrls[post.$id].url}
+                  controls
+                  muted
+                  className="w-full lg:h-[500px]  sm:h-fit object-cover rounded-lg md:h-[600px]"
+                />
+                {/* // </button> */}
+                </div>
+              ) : (
+                <div className="py-10 bg-black">
+                <img
+                  src={mediaUrls[post.$id].url}
+                  alt="Post"
+                
+                  className="w-full lg:h-[500px] sm:h-fit object-cover rounded-lg h-fit"
+                />
+                </div>
+              )
+            ) : (
+              <div className="w-32 h-32 bg-gray-200 flex items-center justify-center rounded-md">
+                <Image className="text-gray-400" size={24} />
+              </div>
             )}
 
-           
             <div className="flex justify-between items-center pt-2 px-3">
               <div className="flex items-center gap-2">
                 <button onClick={() => handleLike(post.$id)}>
@@ -232,29 +241,27 @@ function Page() {
                 </button>
                 <span className="text-sm">{likes[post.$id] || 0}</span>
               </div>
-
+              
               <button
-                onClick={() => {
-                  setSelectedPostId(post.$id);
-                  setOpenComments(true);
-                }}
-              >
-                <MessageCircle size={26} className="text-gray-500" />
-              </button>
+              onClick={() => {
+                setSelectedPostId(post.$id);
+                setOpenComments(true);
+              }}
+            >
+              <MessageCircle size={26} className="text-gray-500" />
+              </button>  
+                
+              
+              
             </div>
           </div>
         ))}
       </div>
-
-      
-      <Modal open={openComments} setOpen={setOpenComments}>
+        <Modal open={openComments} setOpen={setOpenComments}>
         {selectedPostId && (
-          <Comments
-            postId={selectedPostId}
-            onClose={() => setOpenComments(false)}
-          />
-        )}
-      </Modal>
+       <Comments postId={selectedPostId} onClose={() => setOpenComments(false)} />
+       )}
+      </Modal>    
     </Container>
   );
 }
